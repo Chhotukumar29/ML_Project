@@ -1,0 +1,12 @@
+pandas
+numpy
+dataclasses
+matplotlib
+seaborn
+PyYAML
+python-dotenv
+sklearn
+scikit-learn
+scipy
+setuptools
+-e .
