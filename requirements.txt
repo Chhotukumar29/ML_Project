@@ -9,4 +9,5 @@ sklearn
 scikit-learn
 scipy
 setuptools
+missingno
 -e .
