@@ -8,15 +8,15 @@ The Automated Water Quality Prediction System is a machine learning-based applic
 
 List the main technologies, libraries, and tools used in your project:
 
-Python
-pandas
-numpy
-dataclasses
-matplotlib
-seaborn
-python-dotenv
-sklearn
-scikit-learn
-scipy
-setuptools
-missingno
+1. Python <br>
+2. pandas <br>
+3. numpy <br>
+4. dataclasses <br>
+5. matplotlib <br>
+6. seaborn <br>
+7. python-dotenv <br>
+8. sklearn <br>
+9. scikit-learn <br>
+10. scipy <br>
+11. setuptools <br>
+12. missingno 
