@@ -11,4 +11,11 @@ scipy
 setuptools
 missingno
 catboost
+streamlit
+PIL
+stqdm
+pickle
+time
+stqdm
+streamlit_option_menu
 -e .
