@@ -29,9 +29,9 @@ css_style = {
 }
 
 # Loading images
-img_banner = Image.open("C:/Users/chhot/Desktop/demo/ML_Project/notebook/Title pic.png")
-img_banner2 = Image.open("C:/Users/chhot/Desktop/demo/ML_Project/notebook/image 2.png")
-img_rwanda = Image.open("C:/Users/chhot/Desktop/demo/ML_Project/notebook/Image 3.jpg")
+img_banner = Image.open("C:/Users/chhot/Desktop/demo/ML_Project/notebook/Files/Title pic.png")
+img_banner2 = Image.open("C:/Users/chhot/Desktop/demo/ML_Project/notebook/Files/image 2.png")
+img_rwanda = Image.open("C:/Users/chhot/Desktop/demo/ML_Project/notebook/Files/Image 3.jpg")
 
 def home_page():
     st.write(f"""# Water Quality Prediction System""", unsafe_allow_html=True)
