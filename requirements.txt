@@ -4,18 +4,13 @@ dataclasses
 matplotlib
 seaborn
 PyYAML
-python-dotenv
-sklearn
 scikit-learn
 scipy
 setuptools
 missingno
 catboost
 streamlit
-PIL
-stqdm
-pickle
-time
+Pillow
 stqdm
 streamlit_option_menu
 -e .

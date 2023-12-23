@@ -7,13 +7,21 @@ from time import sleep
 from stqdm import stqdm
 from streamlit_option_menu import option_menu
 
+# loading our model from modelling file with pickle fucntion
 @st.cache_resource
 def load_model():
-    with open('assets/model.pkl', 'rb') as f:
-        return pickle.load(f)
+    with open("C:/Users/chhot/Dropbox/Omdena/Water Prediction/ML_Project/notebook/classifier.pkl", 'rb') as f:
+        return pickle.load(f)    
     
 # Our web page name 
 st.set_page_config(page_title="Omdena Rwanda Chapter", page_icon="🇷🇼", initial_sidebar_state="expanded")
+
+def generate_style(style_dict):
+    styles = "<style>"
+    for selector, props in style_dict.items():
+        styles += f"{selector} {{" + "".join([f"{prop}: {value};" for prop, value in props.items()]) + "}"
+    styles += "</style>"
+    return styles
 
 hide_streamlit_style = """
             <style>
@@ -33,32 +41,30 @@ img_banner = Image.open("C:/Users/chhot/Desktop/demo/ML_Project/notebook/Files/T
 img_banner2 = Image.open("C:/Users/chhot/Desktop/demo/ML_Project/notebook/Files/image 2.png")
 img_rwanda = Image.open("C:/Users/chhot/Desktop/demo/ML_Project/notebook/Files/Image 3.jpg")
 
+
 def home_page():
     st.write(f"""# Water Quality Prediction System""", unsafe_allow_html=True)
     st.image(img_banner)
+    st.write(f"""<h2> The Problem</h2>
+        <p>Access to clean water is a critical challenge in many parts of the world, 
+        including Rwanda. Water quality prediction is important for ensuring the availability of safe and clean water for 
+        drinking, agriculture, and other purposes. However, traditional methods for water quality prediction are often 
+        time-consuming and costly, and they may not provide accurate and timely information. To address this challenge, 
+        the Omdena Rwanda Chapter has initiated a project to develop an automated water quality prediction system using 
+        machine learning.</p>""", unsafe_allow_html=True)
+    st.write(f"""<h2> Project Goals</h2>
+        <p> In this project, the Omdena Rwanda Chapter’s primary goal in this project 
+        is to develop an accurate and efficient machine learning model that can predict water quality based on a range of 
+        parameters such as Electrical conductivity of water, Amount of organic carbon in ppm, Amount of Trihalomethanes 
+        in μg/L, and turbidity. The model will be trained on a large dataset of historical water quality data and will be 
+        designed to provide predictions for water quality..</p>""", unsafe_allow_html=True)
     
-    st.write(f"""<h2" The Problem of Water Quality Prediction System</h2>
-    <p>Access to clean water is a critical challenge in many parts of the world, 
-    including Rwanda. Water quality prediction is important for ensuring the availability of safe and clean water for 
-    drinking, agriculture, and other purposes. However, traditional methods for water quality prediction are often 
-    time-consuming and costly, and they may not provide accurate and timely information. To address this challenge, 
-    the Omdena Rwanda Chapter has initiated a project to develop an automated water quality prediction system using 
-    machine learning.</p>""", unsafe_allow_html=True)
-    
-    st.write(f""" <h2> Project goals of Water Quality Prediction System</h2>
-            <p> In this project, the Omdena Rwanda Chapter’s primary goal in this project 
-    is to develop an accurate and efficient machine learning model that can predict water quality based on a range of 
-    parameters such as Electrical conductivity of water, Amount of organic carbon in ppm, Amount of Trihalomethanes 
-    in μg/L, and turbidity. The model will be trained on a large dataset of historical water quality data and will be 
-    designed to provide predictions for water quality..</p>""", unsafe_allow_html=True)
-    
-    
-def about_page():
-    st.write("""<h1>project background <h1>""", unsafe_allow_html=True)
+def about_page():    
+    st.write("""<h1>Project Background </h1>""", unsafe_allow_html=True)
     st.image(img_banner2)
     st.write("""
-            <p>Rwanda is a landlocked country located in East Africa, 
-            with a population of approximately 13 million people. Despite efforts to improve access to clean water, 
+        <p>Rwanda is a landlocked country located in East Africa, 
+        with a population of approximately 13 million people. Despite efforts to improve access to clean water, 
         access remains a critical challenge, particularly in rural areas. According to UNICEF, only 47% of the population 
         has access to basic water services, and only 32% have access to safely managed drinking water services. One of 
         the challenges in ensuring access to clean water is predicting and monitoring water quality. Traditional water 
@@ -68,22 +74,29 @@ def about_page():
         quality prediction and monitoring by providing a faster, more accurate, and cost-effective method for predicting 
         water quality. By analyzing large datasets of water quality parameters, machine learning models can identify 
         patterns and relationships between different parameters, enabling accurate predictions of water quality.</p><br>
-    """, unsafe_allow_html=True)
-    
+        """, unsafe_allow_html=True)
     
 def model_selection():
     st.write("""<h1> Predict Water Quality </h1>
             <p> Enter these values of the parameters to know if the water quality is suitable to drink or not.</p><hr>
     """, unsafe_allow_html=True)
     
-    col1, col2, col3 = st.columns(gap= 'large')
+    col1, col2, col3 = st.columns(3)
     with col1:
-        ColoutTCU = st.number_input(label="Colour TCU", min_value= 0.0, max_value=1000.0, step=50.0, format = '%f', key = 'test_slider')
-        TurbidityNTU = st.number_input(label="Turbidity", min_value=0.0, max_value= 1000.0, step=50.0, format = '%f', key = 'test_slider')
-        pH = st.number_input(label="pH", min_value=0.0, max_value= 1000.0, step=50.0, format = '%f', key = 'test_slider')
-        ConductivityuS = st.number_input(label="Conductivity", min_value=0.0, max_value=1000.0, step=50.0, format = '%f', key = 'test_slider')
-        TotalDissolvedSolids = st.number_input(label="TotalDissolvedSolids", min_value=0.0, max=1000.0, step=50, format = '%f', key= 'test_slider')
-        TotalHardness = st.number_input(label="TotalHardness", min_value=0.0, max=1000.0, step=50, format = '%f',key= 'test_slider')
+        ColourTCU = st.number_input(label="Colour (TCU)", min_value=0.0, max_value=1000.0, step=50.0, format="%f",
+                                    key="test_slider0")
+        TurbidityNTU = st.number_input(label="Turbidity (NTU)", min_value=0.0, max_value=1000.0, step=50.0, format="%f",
+                                    key="test_slider1")
+        pH = st.number_input(label="pH", min_value=0.0, max_value=1000.0, step=50.0, format="%f", key="test_slider2")
+        ConductivityuS = st.number_input(label="Conductivity (uS/cm)", min_value=0.0, max_value=1000.0, step=50.0,
+                                    format="%f", key="test_slider3")
+        TotalDissolvedSolids = st.number_input(label="Total Dissolved Solids (mg/l)", min_value=0.0, max_value=1000.0,
+                                    step=50.0, format="%f", key="test_slider4")
+        TotalHardness = st.number_input(label="Total Hardness (mg/l as CaCO3)", min_value=0.0, max_value=1000.0,
+                                    step=50.0, format="%f", key="test_slider5")
+
+# Assigning unique keys to each widget
+
         
     with col2:
         Aluminium = st.number_input(label="Aluminium (mg/l)", min_value=0.0, max_value=1000.5, step=50.1, format="%f", key="test_slider6")
@@ -113,7 +126,6 @@ def model_selection():
                             'Potassium (mg/l)': [Potassium], 'Nitrate (mg/l)': [Nitrate],
                             'Phosphate (mg/l)': [Phosphate]})
     
-    
     if predict_button:
         model = load_model()
         result = model.predict(dataframe)
@@ -123,23 +135,35 @@ def model_selection():
             st.error('This Water Quality is Non-Potable')
         else:
             st.error('This Water Quality is Potable')
-            
-    with st.sidebar:
-        st.image(img_rwanda)
-        selected = option_menu(
-            menu_title = None,
-            options = ["Home", "Check Water Quality", "About"] ,
-            icons = ['House', 'droplet', 'info_circle'],
-            styles = css_style
-        )
-    
-    
+
+def Developer_Name():
+    st.write("""<h1> Chhotu Kumar </h1> <br>
+        <h4> For inquiries, you can mail us </h>
+        <br> <br> 
+        <p> Chhotuchiitodiya@gmail.com </p>
+        """, unsafe_allow_html=True)
+
+
+# Function to render selected page
+def render_page(selected):
     if selected == "Home":
         home_page()
-
-    elif selected == "Check Water Quality":
-        model_section()
-
     elif selected == "About":
-        about_page()   
+        about_page()
+    elif selected == "Check Water Quality":
+        model_selection()
+    elif selected == "Developer Contact":
+        Developer_Name()
         
+with st.sidebar:
+    st.image(img_rwanda)
+    selected = option_menu(
+        menu_title = None,
+        options = ["Home", "Check Water Quality", "About", "Developer Contact"] ,
+        icons=["house", "droplet", "info", "person"],
+        styles = css_style
+    )
+    
+# Render the selected page
+render_page(selected)
+
