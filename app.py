@@ -1,7 +1,9 @@
 import streamlit as st 
 import pandas as pd
 from PIL import Image
+import joblib
 import stqdm
+import os
 import pickle
 from time import sleep
 from stqdm import stqdm
@@ -9,10 +11,15 @@ from streamlit_option_menu import option_menu
 
 
 # loading our model from modelling file with pickle fucntion
-@st.cache_resource
+@st.cache(allow_output_mutation=True)
 def load_model():
-    with open("notebook/rf_model.pkl", 'rb') as f:
-        return pickle.load(f)    
+    model_path = "notebook/rf_model.pkl"
+    if os.path.exists(model_path):
+        with open(model_path, 'rb') as f:
+            return pickle.load(f)
+    else:
+        st.error(f"Model file '{model_path}' not found.")
+        return None  
 
 
 # Our web page name 

@@ -11,6 +11,7 @@ missingno
 catboost
 streamlit
 Pillow
+joblib
 stqdm
 streamlit_option_menu
 -e .
