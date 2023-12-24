@@ -143,19 +143,6 @@ def model_selection():
 
     if predict_button:
         model = load_model()
-        if model is None:
-            st.error("Error loading the model.")
-            return
-        try:
-            result = model.predict(dataframe)
-            # Add logging to check the result and dataframe for debugging
-            st.write("Dataframe:", dataframe)
-            # Rest of your code for displaying the prediction result...
-        except Exception as e:
-            st.error(f"Prediction error: {e}")
-
-    if predict_button:
-        model = load_model()
         result = model.predict(dataframe)
         for _ in stqdm(range(50)):
             sleep(0.015)
