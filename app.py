@@ -13,7 +13,14 @@ from streamlit_option_menu import option_menu
 # loading our model from modelling file with pickle fucntion
 @st.cache
 def load_model():
-    return joblib.load('notebook/rf_model.pkl')
+    try:
+        print("Loading model...")
+        model = joblib.load('notebook/rf_model.pkl')
+        print("Model loaded successfully!")
+        return model
+    except Exception as e:
+        print(f"Error loading the model: {e}")
+        return None
 
 
 # Our web page name 
