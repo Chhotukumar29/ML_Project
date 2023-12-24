@@ -11,7 +11,7 @@ from streamlit_option_menu import option_menu
 
 
 # loading our model from modelling file with pickle fucntion
-@st.cache_resource
+@st.cache
 def load_model():
     with open('notebook/rf_model.pkl', 'rb') as f:
         return pickle.load(f) 
