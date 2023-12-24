@@ -11,7 +11,7 @@ from streamlit_option_menu import option_menu
 
 
 # loading our model from modelling file with pickle fucntion
-@st.cache
+@st.cache_resource
 def load_model():
     try:
         print("Loading model...")
