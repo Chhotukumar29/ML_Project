@@ -13,14 +13,8 @@ from streamlit_option_menu import option_menu
 # loading our model from modelling file with pickle fucntion
 @st.cache_resource
 def load_model():
-    try:
-        print("Loading model...")
-        model = joblib.load('notebook/model_joblib')
-        print("Model loaded successfully!")
-        return model
-    except Exception as e:
-        print(f"Error loading the model: {e}")
-        return None
+    with open('notebook/model.pkl', 'rb') as f:
+        return pickle.load(f)
 
 
 # Our web page name 
@@ -170,7 +164,7 @@ def render_page(selected):
         about_page()
         
     elif selected == "Check Water Quality":
-        model_selection()
+        model_selection() 
         
     elif selected == "Developer Contact":
         Developer_Name()
