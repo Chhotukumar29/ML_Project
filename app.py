@@ -15,7 +15,7 @@ from streamlit_option_menu import option_menu
 def load_model():
     try:
         print("Loading model...")
-        model = joblib.load('notebook/rf_model.pkl')
+        model = joblib.load('notebook/model_joblib')
         print("Model loaded successfully!")
         return model
     except Exception as e:
@@ -90,10 +90,10 @@ def about_page():
 # # model_selection() function which selects columns from the model based on its attributes.
 def model_selection():
     st.write("""<h1> Predict Water Quality </h1>
-            <p> Enter these values of the parameters to know if the water quality is suitable to drink or not.</p><hr>
+    <p> Enter these values of the parameters to know if the water quality is suitable to drink or not.</p><hr>
     """, unsafe_allow_html=True)
     
-    col1, col2, col3 = st.columns(3)
+    col1, col2, col3 = st.columns(3, gap= 'large')
     with col1:
         ColourTCU = st.number_input(label="Colour (TCU)", min_value=0.0, max_value=1000.0, step=50.0, format="%f",
                                     key="test_slider0")
@@ -141,6 +141,7 @@ def model_selection():
                             })
 
 
+
     if predict_button:
         model = load_model()
         result = model.predict(dataframe)
@@ -164,10 +165,13 @@ def Developer_Name():
 def render_page(selected):
     if selected == "Home":
         home_page()
+        
     elif selected == "About":
         about_page()
+        
     elif selected == "Check Water Quality":
         model_selection()
+        
     elif selected == "Developer Contact":
         Developer_Name()
 
