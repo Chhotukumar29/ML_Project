@@ -148,12 +148,21 @@ def model_selection():
             return
         try:
             result = model.predict(dataframe)
-            st.write("Prediction Result:", result)
-        except AttributeError as attr_err:
-            st.error(f"AttributeError occurred: {attr_err}")
-            st.write("Model type:", type(model))
+            # Add logging to check the result and dataframe for debugging
+            st.write("Dataframe:", dataframe)
+            # Rest of your code for displaying the prediction result...
         except Exception as e:
             st.error(f"Prediction error: {e}")
+
+    if predict_button:
+        model = load_model()
+        result = model.predict(dataframe)
+        for _ in stqdm(range(50)):
+            sleep(0.015)
+        if result[0] == 1.0:
+            st.error('This Water Quality is Non-Potable')
+        else:
+            st.error('This Water Quality is Potable') 
 
 
 def Developer_Name():
