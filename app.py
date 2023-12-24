@@ -7,21 +7,17 @@ from time import sleep
 from stqdm import stqdm
 from streamlit_option_menu import option_menu
 
+
 # loading our model from modelling file with pickle fucntion
 @st.cache_resource
 def load_model():
-    with open("C:/Users/chhot/Dropbox/Omdena/Water Prediction/ML_Project/notebook/classifier.pkl", 'rb') as f:
+    with open("notebook/rf_model.pkl", 'rb') as f:
         return pickle.load(f)    
-    
+
+
 # Our web page name 
 st.set_page_config(page_title="Omdena Rwanda Chapter", page_icon="🇷🇼", initial_sidebar_state="expanded")
 
-def generate_style(style_dict):
-    styles = "<style>"
-    for selector, props in style_dict.items():
-        styles += f"{selector} {{" + "".join([f"{prop}: {value};" for prop, value in props.items()]) + "}"
-    styles += "</style>"
-    return styles
 
 hide_streamlit_style = """
             <style>
@@ -36,12 +32,14 @@ css_style = {
     "nav-link-selected" : {'background-color': 'FF4C1B'}
 }
 
+
 # Loading images
-img_banner = Image.open("C:/Users/chhot/Desktop/demo/ML_Project/notebook/Files/Title pic.png")
-img_banner2 = Image.open("C:/Users/chhot/Desktop/demo/ML_Project/notebook/Files/image 2.png")
-img_rwanda = Image.open("C:/Users/chhot/Desktop/demo/ML_Project/notebook/Files/Image 3.jpg")
+img_banner = Image.open("notebook/Files/Title pic.jpg")
+img_banner2 = Image.open("notebook/Files/image 2.jpg")
+img_rwanda = Image.open("notebook/Files/Image 3.jpg")
 
 
+# home_page() function with the problem stetement and project goal 
 def home_page():
     st.write(f"""# Water Quality Prediction System""", unsafe_allow_html=True)
     st.image(img_banner)
@@ -52,6 +50,8 @@ def home_page():
         time-consuming and costly, and they may not provide accurate and timely information. To address this challenge, 
         the Omdena Rwanda Chapter has initiated a project to develop an automated water quality prediction system using 
         machine learning.</p>""", unsafe_allow_html=True)
+    
+    
     st.write(f"""<h2> Project Goals</h2>
         <p> In this project, the Omdena Rwanda Chapter’s primary goal in this project 
         is to develop an accurate and efficient machine learning model that can predict water quality based on a range of 
@@ -59,6 +59,8 @@ def home_page():
         in μg/L, and turbidity. The model will be trained on a large dataset of historical water quality data and will be 
         designed to provide predictions for water quality..</p>""", unsafe_allow_html=True)
     
+    
+# about_page() function with Project Information
 def about_page():    
     st.write("""<h1>Project Background </h1>""", unsafe_allow_html=True)
     st.image(img_banner2)
@@ -75,7 +77,9 @@ def about_page():
         water quality. By analyzing large datasets of water quality parameters, machine learning models can identify 
         patterns and relationships between different parameters, enabling accurate predictions of water quality.</p><br>
         """, unsafe_allow_html=True)
-    
+
+
+# # model_selection() function which selects columns from the model based on its attributes.
 def model_selection():
     st.write("""<h1> Predict Water Quality </h1>
             <p> Enter these values of the parameters to know if the water quality is suitable to drink or not.</p><hr>
@@ -95,9 +99,8 @@ def model_selection():
         TotalHardness = st.number_input(label="Total Hardness (mg/l as CaCO3)", min_value=0.0, max_value=1000.0,
                                     step=50.0, format="%f", key="test_slider5")
 
-# Assigning unique keys to each widget
 
-        
+# Assigning unique keys to each widget
     with col2:
         Aluminium = st.number_input(label="Aluminium (mg/l)", min_value=0.0, max_value=1000.5, step=50.1, format="%f", key="test_slider6")
         Chloride = st.number_input(label="Chloride (mg/l)", min_value=0.0, max_value=1000.0, step=50.0, format="%f", key="test_slider7")
@@ -105,7 +108,8 @@ def model_selection():
         Sodium = st.number_input(label="Sodium (mg/l)", min_value=0.0, max_value=1000.0, step=50.0, format="%f", key="test_slider9")
         Sulphate = st.number_input(label="Sulphate (mg/l)", min_value=0.0, max_value=1000.0, step=50.0, format="%f", key="test_slider10")
         Zinc = st.number_input(label="Zinc (mg/l)", min_value=0.0, max_value=1000.0, step=50.0, format="%f", key="test_slider11")
-        
+
+
     with col3:
         Magnesium = st.number_input(label="Magnesium (mg/l)", min_value=0.0, max_value=1000.0, step=50.0, format="%f", key="test_slider12")
         Calcium = st.number_input(label="Calcium (mg/l)", min_value=0.0, max_value=1000.0, step=50.0, format="%f", key="test_slider13")
@@ -114,7 +118,7 @@ def model_selection():
         Phosphate = st.number_input(label="Phosphate (mg/l)", min_value=0.0, max_value=1000.2, step=50.1, format="%f", key="test_slider16")
         st.write("<br>", unsafe_allow_html=True)
         predict_button = st.button('  Predict Water Quality  ')
-        
+
 
     dataframe = pd.DataFrame({'Colour (TCU)': [ColourTCU], 'Turbidity (NTU)': [TurbidityNTU], 'pH': [pH],
                             'Conductivity (uS/cm)': [ConductivityuS],
@@ -125,7 +129,8 @@ def model_selection():
                             'Magnesium (mg/l)': [Magnesium], 'Calcium (mg/l)': [Calcium],
                             'Potassium (mg/l)': [Potassium], 'Nitrate (mg/l)': [Nitrate],
                             'Phosphate (mg/l)': [Phosphate]})
-    
+
+
     if predict_button:
         model = load_model()
         result = model.predict(dataframe)
@@ -154,7 +159,8 @@ def render_page(selected):
         model_selection()
     elif selected == "Developer Contact":
         Developer_Name()
-        
+
+
 with st.sidebar:
     st.image(img_rwanda)
     selected = option_menu(
@@ -163,7 +169,8 @@ with st.sidebar:
         icons=["house", "droplet", "info", "person"],
         styles = css_style
     )
-    
+
+
 # Render the selected page
 render_page(selected)
 
