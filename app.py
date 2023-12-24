@@ -128,7 +128,8 @@ def model_selection():
         predict_button = st.button('  Predict Water Quality  ')
 
 
-    dataframe = pd.DataFrame({'Colour (TCU)': [ColourTCU], 'Turbidity (NTU)': [TurbidityNTU], 'pH': [pH],
+    dataframe = pd.DataFrame({
+                            'Colour (TCU)': [ColourTCU], 'Turbidity (NTU)': [TurbidityNTU], 'pH': [pH],
                             'Conductivity (uS/cm)': [ConductivityuS],
                             'Total Dissolved Solids (mg/l)': [TotalDissolvedSolids],
                             'Total Hardness (mg/l as CaCO3)': [TotalHardness], 'Aluminium (mg/l)': [Aluminium],
@@ -136,22 +137,28 @@ def model_selection():
                             'Sodium (mg/l)': [Sodium], 'Sulphate (mg/l)': [Sulphate], 'Zinc (mg/l)': [Zinc],
                             'Magnesium (mg/l)': [Magnesium], 'Calcium (mg/l)': [Calcium],
                             'Potassium (mg/l)': [Potassium], 'Nitrate (mg/l)': [Nitrate],
-                            'Phosphate (mg/l)': [Phosphate]})
+                            'Phosphate (mg/l)': [Phosphate]
+                            })
 
 
     if predict_button:
         model = load_model()
-        result = model.predict(dataframe)
-        for _ in stqdm(range(50)):
-            sleep(0.015)
-        if result[0] == 1.0:
-            st.error('This Water Quality is Non-Potable')
-        else:
-            st.error('This Water Quality is Potable')
+        if model is None:
+            st.error("Error loading the model.")
+            return
+        try:
+            result = model.predict(dataframe)
+            st.write("Prediction Result:", result)
+        except AttributeError as attr_err:
+            st.error(f"AttributeError occurred: {attr_err}")
+            st.write("Model type:", type(model))
+        except Exception as e:
+            st.error(f"Prediction error: {e}")
+
 
 def Developer_Name():
     st.write("""<h1> Chhotu Kumar </h1> <br>
-        <h4> For inquiries, you can mail us </h>
+        <h4> For inquiries, you can mail us: </h>
         <br> <br> 
         <p> Chhotuchiitodiya@gmail.com </p>
         """, unsafe_allow_html=True)
@@ -175,8 +182,7 @@ with st.sidebar:
         menu_title = None,
         options = ["Home", "Check Water Quality", "About", "Developer Contact"] ,
         icons=["house", "droplet", "info", "person"],
-        styles = css_style
-    )
+        styles = css_style)
 
 
 # Render the selected page
