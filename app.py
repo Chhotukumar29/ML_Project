@@ -11,15 +11,10 @@ from streamlit_option_menu import option_menu
 
 
 # loading our model from modelling file with pickle fucntion
-@st.cache(allow_output_mutation=True)
+@st.cache_resource
 def load_model():
-    model_path = "notebook/rf_model.pkl"
-    if os.path.exists(model_path):
-        with open(model_path, 'rb') as f:
-            return pickle.load(f)
-    else:
-        st.error(f"Model file '{model_path}' not found.")
-        return None  
+    with open('notebook/rf_model.pkl', 'rb') as f:
+        return pickle.load(f) 
 
 
 # Our web page name 
